@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Feature(models.Model):
+    placeId           = models.CharField(max_length=255)
     title             = models.CharField(max_length=255)
     imgs              = models.TextField()
     image1 = models.OneToOneField(
