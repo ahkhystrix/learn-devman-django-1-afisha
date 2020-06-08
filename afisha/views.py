@@ -2,6 +2,7 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 from places.models import Feature
 
@@ -19,7 +20,7 @@ def show_index(request):
             "properties": {
                 "title": qs.description_short,
                 "placeId": qs.placeId,
-                "detailsUrl": "/static/places/" + qs.placeId + ".json"
+                "detailsUrl": reverse('get_place', kwargs={'id': qs.id})
             }
         }
         features.append(feature)
@@ -36,11 +37,15 @@ def get_place(request, id):
             qs.image1.image.url,
             qs.image2.image.url,
         ],
-        "description_short": qs.description_short, 
+        "description_short": qs.description_short,
         "description_long": qs.description_long,
         "coordinates": {
             "lng": qs.coordinates_lng,
             "lat": qs.coordinates_lat,
         }
     }
-    return JsonResponse(feature, safe=False, json_dumps_params={'ensure_ascii': False})
+    return JsonResponse(
+        feature,
+        safe=False,
+        json_dumps_params={'ensure_ascii': False}
+    )
