@@ -1,5 +1,5 @@
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404
 
@@ -30,4 +30,17 @@ def show_index(request):
 
 def get_place(request, id):
     qs = get_object_or_404(Feature, id=id)
-    return HttpResponse(qs.title)
+    feature = {
+        "title": qs.title,
+        "imgs": [
+            qs.image1.image.url,
+            qs.image2.image.url,
+        ],
+        "description_short": qs.description_short, 
+        "description_long": qs.description_long,
+        "coordinates": {
+            "lng": qs.coordinates_lng,
+            "lat": qs.coordinates_lat,
+        }
+    }
+    return JsonResponse(feature, safe=False, json_dumps_params={'ensure_ascii': False})
