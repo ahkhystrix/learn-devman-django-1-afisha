@@ -3,5 +3,13 @@ from django.contrib import admin
 from .models import Feature, Image
 
 
-admin.site.register(Feature)
-admin.site.register(Image)
+class ImageAdmin(admin.TabularInline):
+    model = Image
+    fields = ("image", "position")
+
+
+@admin.register(Feature)
+class FeatureAdmin(admin.ModelAdmin):
+    inlines = [
+        ImageAdmin,
+    ]

@@ -4,7 +4,7 @@ from django.template import loader
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
-from places.models import Feature
+from places.models import Feature, Image
 
 
 def show_index(request):
@@ -31,12 +31,12 @@ def show_index(request):
 
 def get_place(request, id):
     qs = get_object_or_404(Feature, id=id)
+    images = []
+    for item in Image.objects.filter(feature_id=id):
+        images.append(item.image.url)
     feature = {
         "title": qs.title,
-        "imgs": [
-            qs.image1.image.url,
-            qs.image2.image.url,
-        ],
+        "imgs": images,
         "description_short": qs.description_short,
         "description_long": qs.description_long,
         "coordinates": {
