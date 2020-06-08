@@ -1,6 +1,7 @@
 import json
 from django.http import HttpResponse
 from django.template import loader
+from django.shortcuts import get_object_or_404
 
 from places.models import Feature
 
@@ -25,3 +26,8 @@ def show_index(request):
     context = {"features": json.dumps(features, ensure_ascii=False)}
     rendered_page = template.render(context, request)
     return HttpResponse(rendered_page)
+
+
+def get_place(request, id):
+    qs = get_object_or_404(Feature, id=id)
+    return HttpResponse(qs.title)

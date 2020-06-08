@@ -24,4 +24,5 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.show_index),
+    path('places/<int:id>/', views.get_place),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
