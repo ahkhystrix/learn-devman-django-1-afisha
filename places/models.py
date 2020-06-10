@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import F
 
 
 class Feature(models.Model):
@@ -19,10 +18,10 @@ class Feature(models.Model):
 
 
 class Image(models.Model):
-    position = models.CharField(
-        max_length=1,
-        blank=True,
-        null=True,
+    position = models.PositiveIntegerField(
+        default=0,
+        blank=False,
+        null=False,
         verbose_name="Позиция"
     )
     image = models.ImageField(verbose_name="Картинка")
@@ -35,4 +34,4 @@ class Image(models.Model):
     class Meta:
         verbose_name = "Фотография"
         verbose_name_plural = "Фотографии"
-        ordering = [F('position').asc(nulls_last=True)]
+        ordering = ['position']
